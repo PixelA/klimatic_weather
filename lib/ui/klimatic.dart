@@ -54,7 +54,7 @@ class _KlimaticState extends State<Klimatic> {
           //container that will hold weather data
           new Container(
             margin: const EdgeInsets.fromLTRB(30.0, 290.0, 0.0, 0.0),
-            child: new Text('67.8F', style: tempStyle()),
+            child: updateTempWidget("Miami"),
           )
         ],
       ),
@@ -69,6 +69,40 @@ class _KlimaticState extends State<Klimatic> {
 
     return json.decode(response.body);
   }
+
+  Widget updateTempWidget(String city) {
+    return new FutureBuilder(
+      future: getWeather(util.apiId, city),
+        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+      //where we get all of the info for JSON data, and set up widgets etc,
+          if (snapshot.hasData) {
+              Map content = snapshot.data;
+              return new Container(
+                child: new Column(
+                 children: <Widget>[
+                  new ListTile(
+                     title: new Text(content['main']['temp'].toString(),
+                       style: new TextStyle(
+                         fontStyle: FontStyle.normal,
+                         fontSize: 49.9,
+                         fontWeight: FontWeight.w500,
+                         color: Colors.white
+                       ),
+
+                     ),
+          )
+                ],
+        ),
+       );
+    }else {
+            return new Container();
+          }
+            
+    });
+  }
+
+
+
 }
 
 
