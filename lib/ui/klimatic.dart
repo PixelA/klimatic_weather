@@ -14,6 +14,15 @@ class Klimatic extends StatefulWidget {
 
 class _KlimaticState extends State<Klimatic> {
 
+  Future _goToNextScreen(BuildContext context) async {
+    Map results = await Navigator.of(context).push(
+      new MaterialPageRoute<Map>(builder: (BuildContext context) {
+        return new ChangeCity();
+      })
+    );
+
+  }
+
   void showStuff() async {
     Map data = await getWeather(util.apiId, util.defaultCity);
     print(data.toString());
@@ -28,7 +37,8 @@ class _KlimaticState extends State<Klimatic> {
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.menu),
-              onPressed: showStuff)
+              onPressed: () {
+                _goToNextScreen(context);})
         ],
       ),
       body: new Stack(
@@ -37,7 +47,7 @@ class _KlimaticState extends State<Klimatic> {
             child: new Image.asset('images/umbrella.png',
                 width: 470.0,
                 height: 1200.0,
-                fit: BoxFit.fill),
+                fit: BoxFit.fill,),
           ),
           new Container(
             alignment: Alignment.topRight,
@@ -103,6 +113,42 @@ class _KlimaticState extends State<Klimatic> {
 
 
 
+}
+class ChangeCity extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        backgroundColor: Colors.red,
+        title: new Text('Change City'),
+        centerTitle: true,
+      ),
+
+    body: new Stack(
+      children: <Widget>[
+        new Center(
+          child: new Image.asset('images/white_snow.png',
+            width: 490.0,
+            height: 1200.0,
+            fit: BoxFit.fill, ),
+        )
+      ],
+    ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+    );
+  }
 }
 
 
