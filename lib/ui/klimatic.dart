@@ -66,13 +66,13 @@ class _KlimaticState extends State<Klimatic> {
           new Container(
               alignment: Alignment.center,
               child: new Image.asset('images/light_rain.png')
-
           ),
+    updateTempWidget(_cityEntered)
           //container that will hold weather data
-          new Container(
-            margin: const EdgeInsets.fromLTRB(30.0, 290.0, 0.0, 0.0),
-            child: updateTempWidget(_cityEntered),
-          )
+          //new Container(
+            //margin: const EdgeInsets.fromLTRB(5.0, 300.0, 0.0, 0.0),
+          //  child: updateTempWidget(_cityEntered),
+          //)
         ],
       ),
     );
@@ -95,7 +95,9 @@ class _KlimaticState extends State<Klimatic> {
           if (snapshot.hasData) {
               Map content = snapshot.data;
               return new Container(
+                margin: const EdgeInsets.fromLTRB(30.00, 280.00, 0.0, 0.0),
                 child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                  children: <Widget>[
                   new ListTile(
                      title: new Text(content['main']['temp'].toString() +" F",
@@ -110,7 +112,9 @@ class _KlimaticState extends State<Klimatic> {
                       title: new Text(
                         "Humidity: ${content['main']['humidity'].toString()}\n"
                             "Min: ${content['main']['temp_min'].toString()} F\n"
-                            "Max: ${content['main']['temp_max'].toString()} F "
+                            "Max: ${content['main']['temp_max'].toString()} F ",
+
+                        style: extraData(),
                       ),
                     ),
           )
@@ -174,17 +178,6 @@ class ChangeCity extends StatelessWidget {
     ),
 
 
-
-
-
-
-
-
-
-
-
-
-
     );
   }
 }
@@ -198,6 +191,16 @@ TextStyle cityStyle() {
     fontStyle: FontStyle.italic,
 
   );
+}
+TextStyle extraData() {
+  return new TextStyle(
+
+    color: Colors.white70,
+    fontSize: 17.0,
+    fontStyle: FontStyle.normal,
+
+  );
+
 }
 
 TextStyle tempStyle() {
