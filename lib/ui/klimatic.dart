@@ -39,7 +39,7 @@ class _KlimaticState extends State<Klimatic> {
       appBar: new AppBar(
         title: new Text('Klimatic Weather'),
         centerTitle: true,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.redAccent.shade700,
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.menu),
@@ -98,15 +98,21 @@ class _KlimaticState extends State<Klimatic> {
                 child: new Column(
                  children: <Widget>[
                   new ListTile(
-                     title: new Text(content['main']['temp'].toString(),
+                     title: new Text(content['main']['temp'].toString() +" F",
                        style: new TextStyle(
                          fontStyle: FontStyle.normal,
                          fontSize: 49.9,
                          fontWeight: FontWeight.w500,
                          color: Colors.white
                        ),
-
                      ),
+                    subtitle:  new ListTile(
+                      title: new Text(
+                        "Humidity: ${content['main']['humidity'].toString()}\n"
+                            "Min: ${content['main']['temp_min'].toString()} F\n"
+                            "Max: ${content['main']['temp_max'].toString()} F "
+                      ),
+                    ),
           )
                 ],
         ),
@@ -127,7 +133,7 @@ class ChangeCity extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.redAccent.shade700,
         title: new Text('Change City'),
         centerTitle: true,
       ),
