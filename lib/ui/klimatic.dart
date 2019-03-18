@@ -50,7 +50,7 @@ class _KlimaticState extends State<Klimatic> {
       body: new Stack(
         children: <Widget>[
           new Center(
-            child: new Image.asset('images/umbrella.png',
+            child: new Image.asset('images/storm.jpg',
                 width: 470.0,
                 height: 1200.0,
                 fit: BoxFit.fill,),
