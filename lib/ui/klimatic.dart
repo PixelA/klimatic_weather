@@ -14,12 +14,18 @@ class Klimatic extends StatefulWidget {
 
 class _KlimaticState extends State<Klimatic> {
 
+  String _cityEntered;
+
   Future _goToNextScreen(BuildContext context) async {
     Map results = await Navigator.of(context).push(
       new MaterialPageRoute<Map>(builder: (BuildContext context) {
         return new ChangeCity();
       })
     );
+    if ( results != null && results.containsKey('enter')) {
+      _cityEntered = results['enter'];
+      //print(results['enter'].toString());
+    }
 
   }
 
@@ -52,7 +58,8 @@ class _KlimaticState extends State<Klimatic> {
           new Container(
             alignment: Alignment.topRight,
             margin: const EdgeInsets.fromLTRB(0.0, 10.9, 20.9, 0.0),
-            child: new Text('Spokane',
+            child: new Text(
+              '${_cityEntered == null ? util.defaultCity : _cityEntered}',
               style: cityStyle(),),
 
           ),
@@ -64,7 +71,7 @@ class _KlimaticState extends State<Klimatic> {
           //container that will hold weather data
           new Container(
             margin: const EdgeInsets.fromLTRB(30.0, 290.0, 0.0, 0.0),
-            child: updateTempWidget("Miami"),
+            child: updateTempWidget(_cityEntered),
           )
         ],
       ),
@@ -82,7 +89,7 @@ class _KlimaticState extends State<Klimatic> {
 
   Widget updateTempWidget(String city) {
     return new FutureBuilder(
-      future: getWeather(util.apiId, city),
+      future: getWeather(util.apiId, city == null ? util.defaultCity : city),
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
       //where we get all of the info for JSON data, and set up widgets etc,
           if (snapshot.hasData) {
@@ -115,6 +122,7 @@ class _KlimaticState extends State<Klimatic> {
 
 }
 class ChangeCity extends StatelessWidget {
+  var _cityFieldController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -131,6 +139,30 @@ class ChangeCity extends StatelessWidget {
             width: 490.0,
             height: 1200.0,
             fit: BoxFit.fill, ),
+        ),
+        new ListView(
+          children: <Widget>[
+            new ListTile(
+              title: new TextField(
+                decoration: new InputDecoration(
+                  hintText: 'Enter City',
+                ),
+                controller: _cityFieldController,
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            new ListTile(
+              title: new FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context, {
+                      'enter': _cityFieldController.text
+                    });
+                  },
+                  textColor: Colors.white70,
+                  color: Colors.redAccent,
+                  child: new Text('Get Weather')),
+            )
+          ],
         )
       ],
     ),
